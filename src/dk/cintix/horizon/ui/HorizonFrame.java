@@ -12,16 +12,56 @@ import dk.cintix.horizon.ui.window.WindowResizeController;
 import javax.swing.*;
 import java.awt.geom.RoundRectangle2D;
 
-public class HorizonFrame extends JFrame {
+public final class HorizonFrame extends JFrame {
 
     private ThemeProvider themeProvider = () -> Theme.DEFAULT;
-    private final WindowControls controls;
-    private final Sidebar sidebar = new Sidebar(this);
-    private final TitleBar titleBar = new TitleBar(this);
     private WindowState state = WindowState.NORMAL;
+
+    private final WindowDragController windowDragController;
+    private final WindowResizeController windowResizeController;
+    private final WindowControls controls;
+    private final Sidebar sidebar;
+    private final TitleBar titleBar;
 
     private final int corner = 18;
     private JPopupMenu windowMenu;
+
+    public HorizonFrame(WindowControls controls) {
+        this.controls = controls;
+
+        setTitle("LiveCrew");
+        setUndecorated(true);
+        setSize(1200, 800);
+        setLocationRelativeTo(null);
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
+
+        JPanel root = new JPanel(null);
+        root.setBackground(theme().BG);
+        setContentPane(root);
+
+        titleBar = new TitleBar(this);
+        titleBar.setBounds(0, 0, getWidth(), 48);
+        root.add(titleBar);
+
+        sidebar = new Sidebar(this);
+        sidebar.setBounds(0, 48, 64, getHeight() - 48);
+        root.add(sidebar);
+
+        windowDragController = new WindowDragController(this, titleBar);
+        windowResizeController = new WindowResizeController(this, root);
+
+        applyShape();
+
+        addComponentListener(new java.awt.event.ComponentAdapter() {
+            @Override
+            public void componentResized(java.awt.event.ComponentEvent e) {
+                layoutUI();
+                applyShape();
+            }
+        });
+
+        setVisible(true);
+    }
 
     public void setThemeProvider(ThemeProvider provider) {
         this.themeProvider = provider != null
@@ -44,40 +84,6 @@ public class HorizonFrame extends JFrame {
 
     public JPopupMenu getWindowMenu() {
         return windowMenu;
-    }
-
-    public HorizonFrame(WindowControls controls) {
-        this.controls = controls;
-
-        setTitle("LiveCrew");
-        setUndecorated(true);
-        setSize(1200, 800);
-        setLocationRelativeTo(null);
-        setDefaultCloseOperation(EXIT_ON_CLOSE);
-
-        JPanel root = new JPanel(null);
-        root.setBackground(theme().BG);
-        setContentPane(root);
-
-        titleBar.setBounds(0, 0, getWidth(), 48);
-        root.add(titleBar);
-
-        sidebar.setBounds(0, 48, 64, getHeight() - 48);
-        root.add(sidebar);
-
-        new WindowDragController(this, titleBar);
-        new WindowResizeController(this, root);
-
-        applyShape();
-
-        addComponentListener(new java.awt.event.ComponentAdapter() {
-            public void componentResized(java.awt.event.ComponentEvent e) {
-                layoutUI();
-                applyShape();
-            }
-        });
-
-        setVisible(true);
     }
 
     public WindowControls getControls() {
