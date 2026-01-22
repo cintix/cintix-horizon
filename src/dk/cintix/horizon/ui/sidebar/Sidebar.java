@@ -25,14 +25,14 @@ public class Sidebar extends JComponent {
         setBackground(frame.theme().SIDEBAR_BG);
 
         // demo items – kan flyttes ud senere
-        items.add(new SidebarItem("dashboard", SidebarIcon.DASHBOARD, "Dashboard"));
-        items.add(new SidebarItem("users", SidebarIcon.USERS, "Users"));
-        items.add(new SidebarItem("bots", SidebarIcon.BOTS, "Bots"));
-        items.add(new SidebarItem("currency", SidebarIcon.CURRENCY, "Currency"));
-        items.add(new SidebarItem("moderation", SidebarIcon.MODERATION, "Moderation"));
-        items.add(new SidebarItem("settings", SidebarIcon.SETTINGS, "Settings"));
-
-        items.get(0).setActive(true);
+//        items.add(new SidebarItem("dashboard", SidebarIcon.DASHBOARD, "Dashboard"));
+//        items.add(new SidebarItem("users", SidebarIcon.USERS, "Users"));
+//        items.add(new SidebarItem("bots", SidebarIcon.BOTS, "Bots"));
+//        items.add(new SidebarItem("currency", SidebarIcon.CURRENCY, "Currency"));
+//        items.add(new SidebarItem("moderation", SidebarIcon.MODERATION, "Moderation"));
+//        items.add(new SidebarItem("settings", SidebarIcon.SETTINGS, "Settings"));
+//
+//        items.get(0).setActive(true);
 
         MouseAdapter mouse = new MouseAdapter() {
 

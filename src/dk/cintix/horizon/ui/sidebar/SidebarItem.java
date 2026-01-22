@@ -20,13 +20,19 @@ public final class SidebarItem {
     }
 
     // --- identity ---
+    public SidebarItem onSelect(Runnable action) {
+        this.onSelect = action;
+        return this;
+    }
 
     public void setOnSelect(Runnable runnable) {
         this.onSelect = runnable;
     }
 
     public void fireSelect() {
-        if (onSelect != null) onSelect.run();
+        if (onSelect != null) {
+            onSelect.run();
+        }
     }
 
     public String getId() {
@@ -42,20 +48,21 @@ public final class SidebarItem {
     }
 
     // --- state (styres af Sidebar) ---
-
     public boolean isActive() {
         return active;
     }
 
-    public void setActive(boolean active) {
+    public SidebarItem setActive(boolean active) {
         this.active = active;
+        return this;
     }
 
     public boolean isHover() {
         return hover;
     }
 
-    public void setHover(boolean hover) {
+    public SidebarItem setHover(boolean hover) {
         this.hover = hover;
+        return this;
     }
 }

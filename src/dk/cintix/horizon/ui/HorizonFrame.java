@@ -1,7 +1,10 @@
 package dk.cintix.horizon.ui;
 
 import dk.cintix.horizon.ui.components.TitleBar;
+import dk.cintix.horizon.ui.content.ContentContainer;
+import dk.cintix.horizon.ui.content.ContentView;
 import dk.cintix.horizon.ui.sidebar.Sidebar;
+import dk.cintix.horizon.ui.sidebar.SidebarItem;
 import dk.cintix.horizon.ui.states.WindowControls;
 import dk.cintix.horizon.ui.states.WindowState;
 import dk.cintix.horizon.ui.theme.Theme;
@@ -20,6 +23,7 @@ public final class HorizonFrame extends JFrame {
     private final WindowDragController windowDragController;
     private final WindowResizeController windowResizeController;
     private final WindowControls controls;
+    private final ContentContainer content;
     private final Sidebar sidebar;
     private final TitleBar titleBar;
 
@@ -47,6 +51,10 @@ public final class HorizonFrame extends JFrame {
         sidebar.setBounds(0, 48, 64, getHeight() - 48);
         root.add(sidebar);
 
+        content = new ContentContainer();
+        content.setBounds(64, 48, getWidth() - 64, getHeight() - 48);
+        root.add(content);
+
         windowDragController = new WindowDragController(this, titleBar);
         windowResizeController = new WindowResizeController(this, root);
 
@@ -61,6 +69,18 @@ public final class HorizonFrame extends JFrame {
         });
 
         setVisible(true);
+    }
+
+    public void addSidebarItem(SidebarItem item) {
+        sidebar.addItem(item);
+    }
+
+    public void registerView(ContentView view) {
+        content.register(view);
+    }
+
+    public void showView(String id) {
+        content.show(id);
     }
 
     public void setThemeProvider(ThemeProvider provider) {
@@ -117,6 +137,7 @@ public final class HorizonFrame extends JFrame {
 
         titleBar.setBounds(0, 0, getWidth(), titleH);
         sidebar.setBounds(0, titleH, sidebarW, getHeight() - titleH);
+        content.setBounds(sidebarW, titleH, getWidth() - sidebarW, getHeight() - titleH);
     }
 
     public void applyShape() {
