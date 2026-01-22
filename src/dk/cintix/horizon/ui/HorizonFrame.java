@@ -1,4 +1,3 @@
-
 package dk.cintix.horizon.ui;
 
 import dk.cintix.horizon.ui.components.TitleBar;
@@ -15,6 +14,7 @@ import java.awt.geom.RoundRectangle2D;
 
 public class HorizonFrame extends JFrame {
 
+    private ThemeProvider themeProvider = () -> Theme.DEFAULT;
     private final WindowControls controls;
     private final Sidebar sidebar = new Sidebar(this);
     private final TitleBar titleBar = new TitleBar(this);
@@ -22,7 +22,6 @@ public class HorizonFrame extends JFrame {
 
     private final int corner = 18;
     private JPopupMenu windowMenu;
-    private ThemeProvider themeProvider = () -> Theme.DEFAULT;
 
     public void setThemeProvider(ThemeProvider provider) {
         this.themeProvider = provider != null
@@ -33,6 +32,9 @@ public class HorizonFrame extends JFrame {
     }
 
     public Theme theme() {
+        if (themeProvider == null) {
+            throw new IllegalStateException("themeProvider is null – init order bug");
+        }
         return themeProvider.getTheme();
     }
 
@@ -87,7 +89,9 @@ public class HorizonFrame extends JFrame {
     }
 
     public void toggleMaximize() {
-        if (controls != WindowControls.CLOSE_HIDE_MAXIMIZE) return;
+        if (controls != WindowControls.CLOSE_HIDE_MAXIMIZE) {
+            return;
+        }
 
         if (state == WindowState.NORMAL) {
             state = WindowState.MAXIMIZED;
