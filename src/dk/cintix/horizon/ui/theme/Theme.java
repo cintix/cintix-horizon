@@ -9,6 +9,7 @@ public class Theme {
     public final Color PANEL_ALT;
     public final Color ACCENT;
     public final Color TEXT;
+    public final Color TEXT_SECONDARY;
     public final Color SIDEBAR_BG;
     public final Color SIDEBAR_HOVER;
     public final Color SIDEBAR_ACTIVE;
@@ -19,6 +20,7 @@ public class Theme {
             Color PANEL_ALT,
             Color ACCENT,
             Color TEXT,
+            Color TEXT_SECONDARY,
             Color SIDEBAR_BG,
             Color SIDEBAR_HOVER,
             Color SIDEBAR_ACTIVE
@@ -28,6 +30,7 @@ public class Theme {
         this.PANEL_ALT = PANEL_ALT;
         this.ACCENT = ACCENT;
         this.TEXT = TEXT;
+        this.TEXT_SECONDARY = TEXT_SECONDARY;
         this.SIDEBAR_BG = SIDEBAR_BG;
         this.SIDEBAR_HOVER = SIDEBAR_HOVER;
         this.SIDEBAR_ACTIVE = SIDEBAR_ACTIVE;
@@ -39,6 +42,7 @@ public class Theme {
             new Color(126, 129, 136),        // PANEL_ALT
             new Color(90, 130, 255),         // ACCENT
             new Color(220, 225, 235),        // TEXT
+            new Color(120, 125, 135),        // TEXT_SECONDARY
             new Color(52, 55, 62),            // SIDEBAR_BG
             new Color(255, 255, 255, 12),    // SIDEBAR_HOVER
             new Color(255, 255, 255, 22)     // SIDEBAR_ACTIVE
