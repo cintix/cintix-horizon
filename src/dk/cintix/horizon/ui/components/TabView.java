@@ -58,12 +58,18 @@ public final class TabView extends JComponent {
 
         addMouseMotionListener(mouseHandler);
         addMouseListener(mouseHandler);
-    }
+        addComponentListener(new java.awt.event.ComponentAdapter() {
+            @Override
+            public void componentResized(java.awt.event.ComponentEvent e) {
+                revalidate();
+                repaint();
+            }
+        });
+     }
 
     /* ===========================
        Public API
        =========================== */
-
     public TabView tab(String label, JComponent content) {
         addTab(label, content);
         return this;
@@ -75,6 +81,10 @@ public final class TabView extends JComponent {
 
         content.setVisible(tabs.size() == 1);
         add(content);
+
+        if (tabs.size() == 1) {
+            setActiveIndex(0);
+        }
 
         revalidate();
         repaint();
@@ -104,7 +114,6 @@ public final class TabView extends JComponent {
     /* ===========================
        Layout
        =========================== */
-
     @Override
     public void doLayout() {
         int width = getWidth();
@@ -116,16 +125,25 @@ public final class TabView extends JComponent {
         }
     }
 
+    @Override
+    public void addNotify() {
+        super.addNotify();
+
+        if (activeIndex >= 0 && activeIndex < tabs.size()) {
+            doLayout();
+            repaint();
+        }
+    }
+
     /* ===========================
        Painting
        =========================== */
-
     @Override
     protected void paintComponent(Graphics g) {
         Graphics2D g2 = (Graphics2D) g.create();
         try {
             g2.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING,
-                                RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
+                    RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
 
             paintHeader(g2);
         } finally {
@@ -178,7 +196,6 @@ public final class TabView extends JComponent {
     /* ===========================
        Hit detection
        =========================== */
-
     private int findTabIndexAt(int mouseX, int mouseY) {
         if (mouseY > HEADER_HEIGHT) {
             return -1;
