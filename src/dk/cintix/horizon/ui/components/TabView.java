@@ -10,12 +10,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-
-
 public final class TabView extends JComponent {
 
     private static final int HEADER_HEIGHT = 36;
-    private static final int TAB_PADDING_X = 16;
+    private static final int TAB_PADDING_X = 14;
+    private static final int TAB_SPACING = 4;
 
     private final Theme theme;
     private final List<Tab> tabs = new ArrayList<>();
@@ -25,10 +24,12 @@ public final class TabView extends JComponent {
 
     public TabView(Theme theme) {
         this.theme = Objects.requireNonNull(theme, "theme");
+
         setLayout(null);
         setOpaque(false);
 
         MouseAdapter mouseHandler = new MouseAdapter() {
+
             @Override
             public void mouseMoved(MouseEvent e) {
                 int index = findTabIndexAt(e.getX(), e.getY());
@@ -133,7 +134,8 @@ public final class TabView extends JComponent {
     }
 
     private void paintHeader(Graphics2D g2) {
-        g2.setColor(theme.BG);
+        // Header background
+        g2.setColor(theme.PANEL);
         g2.fillRect(0, 0, getWidth(), HEADER_HEIGHT);
 
         FontMetrics fm = g2.getFontMetrics();
@@ -141,27 +143,36 @@ public final class TabView extends JComponent {
 
         for (int i = 0; i < tabs.size(); i++) {
             Tab tab = tabs.get(i);
+
             int textWidth = fm.stringWidth(tab.getLabel());
             int tabWidth = textWidth + TAB_PADDING_X * 2;
 
             boolean active = i == activeIndex;
             boolean hover = i == hoverIndex;
 
-            if (active) {
-                g2.setColor(theme.SIDEBAR_ACTIVE);
-                g2.fillRect(x, HEADER_HEIGHT - 3, tabWidth, 3);
-            } else if (hover) {
-                g2.setColor(theme.SIDEBAR_HOVER);
+            if (hover && !active) {
+                g2.setColor(theme.TAB_HOVER);
                 g2.fillRect(x, 0, tabWidth, HEADER_HEIGHT);
             }
 
+            if (active) {
+                g2.setColor(theme.ACCENT);
+                g2.fillRect(x, HEADER_HEIGHT - 2, tabWidth, 2);
+            }
+
             g2.setColor(active ? theme.TEXT : theme.TEXT_SECONDARY);
+
             int textX = x + TAB_PADDING_X;
-            int textY = (HEADER_HEIGHT + fm.getAscent() - fm.getDescent()) / 2;
+            int textY = (HEADER_HEIGHT + fm.getAscent() - fm.getDescent()) / 2 - 1;
+
             g2.drawString(tab.getLabel(), textX, textY);
 
-            x += tabWidth;
+            x += tabWidth + TAB_SPACING;
         }
+
+        // Separator line
+        g2.setColor(theme.TAB_SEPARATOR);
+        g2.drawLine(0, HEADER_HEIGHT - 1, getWidth(), HEADER_HEIGHT - 1);
     }
 
     /* ===========================
@@ -183,7 +194,8 @@ public final class TabView extends JComponent {
             if (mouseX >= x && mouseX <= x + tabWidth) {
                 return i;
             }
-            x += tabWidth;
+
+            x += tabWidth + TAB_SPACING;
         }
 
         return -1;

@@ -13,6 +13,8 @@ public class Theme {
     public final Color SIDEBAR_BG;
     public final Color SIDEBAR_HOVER;
     public final Color SIDEBAR_ACTIVE;
+    public final Color TAB_HOVER;
+    public final Color TAB_SEPARATOR;
 
     public Theme(
             Color BG,
@@ -23,7 +25,9 @@ public class Theme {
             Color TEXT_SECONDARY,
             Color SIDEBAR_BG,
             Color SIDEBAR_HOVER,
-            Color SIDEBAR_ACTIVE
+            Color SIDEBAR_ACTIVE,
+            Color TAB_HOVER,
+            Color TAB_SEPARATOR
     ) {
         this.BG = BG;
         this.PANEL = PANEL;
@@ -34,17 +38,21 @@ public class Theme {
         this.SIDEBAR_BG = SIDEBAR_BG;
         this.SIDEBAR_HOVER = SIDEBAR_HOVER;
         this.SIDEBAR_ACTIVE = SIDEBAR_ACTIVE;
+        this.TAB_HOVER = TAB_HOVER;
+        this.TAB_SEPARATOR = TAB_SEPARATOR;
     }
 
     public static final Theme DEFAULT = new Theme(
-            new Color(18, 20, 26),           // BG
-            new Color(26, 29, 36),           // PANEL
-            new Color(126, 129, 136),        // PANEL_ALT
-            new Color(90, 130, 255),         // ACCENT
-            new Color(220, 225, 235),        // TEXT
-            new Color(120, 125, 135),        // TEXT_SECONDARY
-            new Color(52, 55, 62),            // SIDEBAR_BG
-            new Color(255, 255, 255, 12),    // SIDEBAR_HOVER
-            new Color(255, 255, 255, 22)     // SIDEBAR_ACTIVE
+            new Color(18, 20, 26), // BG
+            new Color(26, 29, 36), // PANEL
+            new Color(126, 129, 136), // PANEL_ALT
+            new Color(90, 130, 255), // ACCENT
+            new Color(220, 225, 235), // TEXT
+            new Color(120, 125, 135), // TEXT_SECONDARY
+            new Color(52, 55, 62), // SIDEBAR_BG
+            new Color(255, 255, 255, 12), // SIDEBAR_HOVER
+            new Color(255, 255, 255, 22), // SIDEBAR_ACTIVE
+            new Color(255, 255, 255, 10), // TAB_HOVER
+            new Color(255, 255, 255, 20) // TAB_SEPARATOR 
     );
 }
